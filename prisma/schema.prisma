@@ -1,0 +1,64 @@
+// ─────────────────────────────────────────────────
+// ARMEL Group — Prisma Schema (PostgreSQL)
+// ─────────────────────────────────────────────────
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ── Admin Users (prepared for future RBAC) ──────
+
+model AdminUser {
+  id        String   @id @default(cuid())
+  username  String   @unique
+  password  String
+  role      String   @default("admin")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("admin_users")
+}
+
+// ── Contact Form Submissions ────────────────────
+
+model ContactSubmission {
+  id          String   @id @default(cuid())
+  name        String
+  phone       String
+  email       String
+  requestType String   @map("request_type")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@map("contact_submissions")
+}
+
+// ── Newsletter Subscribers ──────────────────────
+
+model NewsletterSubscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("newsletter_subscribers")
+}
+
+// ── Analytics Events ────────────────────────────
+
+model AnalyticsEvent {
+  id        String   @id @default(cuid())
+  event     String   // "page_view", "visit", "form_submit", "newsletter_sub"
+  page      String?  // URL path
+  visitorId String?  @map("visitor_id") // anonymous visitor fingerprint
+  metadata  String?  // JSON string for extra data
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([event])
+  @@index([createdAt])
+  @@index([visitorId])
+  @@map("analytics_events")
+}
