@@ -116,7 +116,7 @@ export default function ContactForm() {
   };
 
   return (
-    <section id="contact" className="bg-neutral-50 py-20 lg:py-28">
+    <section id="contact" className="bg-neutral-100 py-20 lg:py-28">
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           title="Get in Touch"
@@ -129,7 +129,7 @@ export default function ContactForm() {
               <CheckCircleIcon size={32} />
             </div>
             <h3 className="text-xl font-bold text-neutral-900">Message Sent!</h3>
-            <p className="mt-2 text-neutral-600">
+            <p className="mt-2 text-neutral-700">
               Thank you for reaching out. We will respond to your inquiry shortly.
             </p>
           </div>

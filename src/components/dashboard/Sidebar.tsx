@@ -1,11 +1,13 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { cn } from '@/utils/helpers';
 import {
   BarChartIcon,
   InboxIcon,
+  NewspaperIcon,
   HomeIcon,
   LogOutIcon,
 } from '@/components/icons';
@@ -13,6 +15,7 @@ import {
 const links = [
   { href: '/dashboard', label: 'Overview', icon: BarChartIcon },
   { href: '/dashboard/submissions', label: 'Submissions', icon: InboxIcon },
+  { href: '/dashboard/news', label: 'News', icon: NewspaperIcon },
 ];
 
 export default function Sidebar() {
@@ -32,15 +35,25 @@ export default function Sidebar() {
   return (
     <aside className="flex h-screen w-64 flex-col border-r border-neutral-200 bg-white">
       {/* Logo */}
-      <div className="flex h-16 items-center gap-2 border-b border-neutral-200 px-6">
-        <span className="text-xl font-bold text-primary-500">ARMEL</span>
-        <span className="text-sm font-medium text-neutral-500">Dashboard</span>
+      <div className="flex h-16 items-center gap-3 border-b border-neutral-200 px-4">
+        <span className="inline-flex items-center rounded-md bg-white px-1.5 py-0.5">
+          <Image
+            src="/assets/logo.webp"
+            alt="ARMEL Group"
+            width={80}
+            height={28}
+            className="h-auto w-auto object-contain"
+          />
+        </span>
+        <span className="text-xs font-medium text-neutral-400">Dashboard</span>
       </div>
 
       {/* Navigation */}
       <nav className="flex-1 space-y-1 px-3 py-4" aria-label="Dashboard navigation">
         {links.map(({ href, label, icon: Icon }) => {
-          const isActive = pathname === href;
+          const isActive = href === '/dashboard'
+            ? pathname === href
+            : pathname.startsWith(href);
           return (
             <Link
               key={href}

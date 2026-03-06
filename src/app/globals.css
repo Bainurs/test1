@@ -11,7 +11,7 @@
   }
 
   body {
-    @apply bg-white text-neutral-900;
+    @apply bg-neutral-200 text-neutral-900;
   }
 
   /* Focus visible outline */
@@ -46,6 +46,48 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* ── News Swiper slider ────────────────────────── */
+.news-slider .swiper-button-prev,
+.news-slider .swiper-button-next {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s;
+}
+
+.news-slider .swiper-button-prev:hover,
+.news-slider .swiper-button-next:hover {
+  background: #1e3a8a;
+}
+
+.news-slider .swiper-button-prev::after,
+.news-slider .swiper-button-next::after {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1e3a8a;
+}
+
+.news-slider .swiper-button-prev:hover::after,
+.news-slider .swiper-button-next:hover::after {
+  color: white;
+}
+
+.news-slider .swiper-pagination-bullet {
+  width: 10px;
+  height: 10px;
+  background: #dee2e6;
+  opacity: 1;
+  transition: all 0.2s;
+}
+
+.news-slider .swiper-pagination-bullet-active {
+  background: #1e3a8a;
+  width: 28px;
+  border-radius: 5px;
 }
 
 /* ── Scrollbar styling ─────────────────────────── */

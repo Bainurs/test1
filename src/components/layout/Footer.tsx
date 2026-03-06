@@ -1,11 +1,12 @@
 import Link from 'next/link';
 import { COMPANY, NAV_LINKS, SOCIAL_LINKS } from '@/utils/constants';
-import { LinkedInIcon, TwitterIcon, FacebookIcon, MailIcon, PhoneIcon, MapPinIcon } from '@/components/icons';
+import Logo from '@/components/ui/Logo';
+import { LinkedInIcon, YouTubeIcon, InstagramIcon, MailIcon, PhoneIcon, MapPinIcon } from '@/components/icons';
 
 const socialIconMap: Record<string, React.FC<{ className?: string; size?: number }>> = {
   linkedin: LinkedInIcon,
-  twitter: TwitterIcon,
-  facebook: FacebookIcon,
+  youtube: YouTubeIcon,
+  instagram: InstagramIcon,
 };
 
 export default function Footer() {
@@ -17,10 +18,7 @@ export default function Footer() {
         <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
           {/* Brand */}
           <div>
-            <Link href="/" className="inline-block text-2xl font-bold text-white">
-              <span className="text-primary-400">ARMEL</span>{' '}
-              <span className="text-neutral-400">Group</span>
-            </Link>
+            <Logo size="md" />
             <p className="mt-4 text-sm leading-relaxed text-neutral-400">
               {COMPANY.description}
             </p>

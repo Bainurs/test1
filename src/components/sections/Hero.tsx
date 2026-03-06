@@ -7,6 +7,7 @@ export default function Hero() {
   return (
     <section
       id="home"
+      data-dark-hero
       className="relative flex min-h-[90vh] items-center overflow-hidden bg-gradient-to-br from-primary-500 via-primary-600 to-primary-800"
     >
       {/* Abstract decorative shapes */}
@@ -38,7 +39,7 @@ export default function Hero() {
                 document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
               }}
             >
-              Get a Quote
+              Contact Us
             </Button>
             <Button
               size="lg"

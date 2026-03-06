@@ -1,11 +1,13 @@
 'use client';
 
 import { useState, useCallback, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { useScrollPosition } from '@/hooks/useScrollPosition';
 import { scrollToElement, cn } from '@/utils/helpers';
-import { NAV_LINKS, COMPANY } from '@/utils/constants';
+import { NAV_LINKS } from '@/utils/constants';
 import Button from '@/components/ui/Button';
+import Logo from '@/components/ui/Logo';
 import { MenuIcon, CloseIcon } from '@/components/icons';
 
 /**
@@ -19,48 +21,43 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isOverDarkBg, setIsOverDarkBg] = useState(true);
 
-  /**
-   * Detect whether the header overlaps a dark-background section.
-   * We sample the background color of the element directly under the header
-   * center and compute its relative luminance to decide text color.
-   */
   useEffect(() => {
-    const checkContrast = () => {
+    const check = () => {
       if (isScrolled) {
-        // Once scrolled, header has its own white background
         setIsOverDarkBg(false);
         return;
       }
 
-      // Check the hero section's computed background
-      const heroEl = document.getElementById('home');
-      if (!heroEl) {
+      const darkSection = document.querySelector('[data-dark-hero]') as HTMLElement | null;
+      if (!darkSection) {
         setIsOverDarkBg(false);
         return;
       }
 
-      const style = getComputedStyle(heroEl);
-      const bg = style.backgroundColor;
-      const luminance = getRelativeLuminance(bg);
-
-      // WCAG: if background luminance < 0.179, it's "dark" → use white text
-      setIsOverDarkBg(luminance < 0.179);
+      const rect = darkSection.getBoundingClientRect();
+      setIsOverDarkBg(rect.bottom > 0);
     };
 
-    checkContrast();
-    window.addEventListener('scroll', checkContrast, { passive: true });
-    return () => window.removeEventListener('scroll', checkContrast);
+    check();
+    window.addEventListener('scroll', check, { passive: true });
+    return () => window.removeEventListener('scroll', check);
   }, [isScrolled]);
+
+  const pathname = usePathname();
+  const isHome = pathname === '/';
 
   const handleNavClick = useCallback(
     (href: string) => {
       setMobileOpen(false);
-      scrollToElement(href);
+      if (isHome) {
+        scrollToElement(href);
+      } else {
+        window.location.href = `/${href}`;
+      }
     },
-    [],
+    [isHome],
   );
 
-  // Determine text color mode
   const useLight = !isScrolled && isOverDarkBg;
 
   return (
@@ -68,7 +65,7 @@ export default function Header() {
       className={cn(
         'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
         isScrolled
-          ? 'bg-white/95 backdrop-blur-md shadow-soft'
+          ? 'bg-neutral-100/95 backdrop-blur-md shadow-soft'
           : 'bg-transparent',
       )}
       role="banner"
@@ -78,18 +75,7 @@ export default function Header() {
         aria-label="Main navigation"
       >
         {/* Logo */}
-        <Link
-          href="/"
-          className="flex items-center gap-2 text-2xl font-bold tracking-tight transition-colors duration-300"
-          aria-label={`${COMPANY.fullName} — home`}
-        >
-          <span className={cn(useLight ? 'text-white' : 'text-primary-500', 'transition-colors duration-300')}>
-            ARMEL
-          </span>
-          <span className={cn(useLight ? 'text-white/70' : 'text-neutral-600', 'text-lg font-medium transition-colors duration-300')}>
-            Group
-          </span>
-        </Link>
+        <Logo size="sm" className={cn('transition-colors duration-300', useLight ? 'bg-transparent' : 'bg-neutral-100/95')} />
 
         {/* Desktop nav */}
         <ul className="hidden items-center gap-8 md:flex">
@@ -110,14 +96,26 @@ export default function Header() {
 
         {/* Desktop CTA */}
         <div className="hidden md:block">
-          <Button
-            size="sm"
-            variant={useLight ? 'secondary' : 'primary'}
-            onClick={() => handleNavClick('#contact')}
-            className="transition-all duration-300"
-          >
-            Get a Quote
-          </Button>
+          {isHome ? (
+            <Button
+              size="sm"
+              variant={useLight ? 'secondary' : 'primary'}
+              onClick={() => handleNavClick('#contact')}
+              className="transition-all duration-300"
+            >
+              Contact Us
+            </Button>
+          ) : (
+            <Link href="/#contact">
+              <Button
+                size="sm"
+                variant={useLight ? 'secondary' : 'primary'}
+                className="transition-all duration-300"
+              >
+                Contact Us
+              </Button>
+            </Link>
+          )}
         </div>
 
         {/* Mobile hamburger */}
@@ -149,9 +147,17 @@ export default function Header() {
               </li>
             ))}
             <li className="pt-2">
-              <Button fullWidth onClick={() => handleNavClick('#contact')}>
-                Get a Quote
-              </Button>
+              {isHome ? (
+                <Button fullWidth onClick={() => handleNavClick('#contact')}>
+                  Contact Us
+                </Button>
+              ) : (
+                <Link href="/#contact">
+                  <Button fullWidth>
+                    Contact Us
+                  </Button>
+                </Link>
+              )}
             </li>
           </ul>
         </div>
@@ -160,23 +166,3 @@ export default function Header() {
   );
 }
 
-/**
- * Calculate relative luminance from a CSS color string.
- * Supports rgb(), rgba(), and common formats.
- * Returns value between 0 (black) and 1 (white).
- * Used for WCAG contrast ratio calculations.
- */
-function getRelativeLuminance(colorStr: string): number {
-  // Parse rgb/rgba
-  const match = colorStr.match(/rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/);
-  if (!match) return 1; // Default to light (safe fallback)
-
-  const r = parseInt(match[1], 10) / 255;
-  const g = parseInt(match[2], 10) / 255;
-  const b = parseInt(match[3], 10) / 255;
-
-  // sRGB to linear
-  const toLinear = (c: number) => (c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4));
-
-  return 0.2126 * toLinear(r) + 0.7152 * toLinear(g) + 0.0722 * toLinear(b);
-}

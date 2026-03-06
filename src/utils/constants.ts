@@ -1,12 +1,12 @@
-import { NavLink, ServiceItem, NewsItem } from '@/types';
+import { NavLink, ServiceItem } from '@/types';
 
 /** Company info */
 export const COMPANY = {
   name: 'ARMEL',
   fullName: 'ARMEL Group',
-  tagline: 'Building the future with reliability and innovation',
+  tagline: 'One partner. Multiple capabilities. Total accountability.',
   description:
-    'ARMEL Group is a diversified international company delivering world-class solutions in logistics, IT services, government contracting, lifestyle support, and construction development.',
+    'Armel Group delivers integrated logistics, procurement, IT, construction, real estate, and essential services—built for regulated, high-stakes environments.',
   email: 'info@armelgroup.com',
   phone: '+1 (800) 555-0199',
   address: '350 Fifth Avenue, Suite 4200, New York, NY 10118',
@@ -34,68 +34,109 @@ export const SERVICES: ServiceItem[] = [
     id: 'it-services',
     title: 'IT Services',
     description:
-      'Enterprise software development, cloud infrastructure, and cybersecurity solutions tailored to modern business needs.',
+      'Secure, scalable technology solutions tailored for regulated and high-demand environments.',
     icon: 'code',
   },
   {
     id: 'government',
     title: 'Government Services',
     description:
-      'Trusted partner for federal and local agencies. Compliance-first approach to mission-critical government contracts.',
+      'Mission-focused service delivery for federal, state, and local entities with strict regulatory compliance.',
     icon: 'building',
   },
   {
-    id: 'lifestyle',
-    title: 'Life Way Support',
+    id: 'life-support',
+    title: 'Operational & Lifestyle Support',
     description:
-      'Comprehensive corporate relocation, employee wellness programs, and lifestyle management services worldwide.',
+      'Comprehensive relocation, workforce, and lifestyle support services for domestic and international operations.',
     icon: 'heart',
   },
   {
     id: 'construction',
     title: 'Construction & Development',
     description:
-      'Large-scale commercial and residential construction projects delivered on time, on budget, and to the highest standards.',
+      'Commercial and residential development with disciplined planning, quality control, and financial oversight.',
     icon: 'hardhat',
   },
 ];
 
-/** Mock news / updates */
-export const NEWS_ITEMS: NewsItem[] = [
-  {
-    id: '1',
-    title: 'ARMEL Expands Logistics Network Across Europe',
-    description:
-      'New partnerships and distribution centres in Germany, France, and Poland strengthen our supply chain capabilities.',
-    image: '/images/news-1.jpg',
-    date: '2026-01-28',
-    slug: 'armel-expands-logistics-europe',
+/** Full service page content */
+export const SERVICE_PAGES: Record<string, {
+  pageTitle: string;
+  intro: string;
+  items: string[];
+  closing: string;
+}> = {
+  logistics: {
+    pageTitle: 'Logistics & Supply Chain Solutions',
+    intro: 'Armel Group delivers end-to-end logistics support designed for operational reliability and scale. From freight coordination to warehousing and distribution, we manage complex supply chains with precision and accountability.',
+    items: [
+      'Domestic and international freight coordination',
+      'Air, ocean, and ground transportation',
+      'Cross-docking and warehousing solutions',
+      'Procurement logistics & material sourcing',
+      'Inventory management and distribution',
+      'Last-mile delivery support',
+      'Supply chain optimization & cost control',
+    ],
+    closing: 'We move critical resources where they are needed—securely, efficiently, and on schedule.',
   },
-  {
-    id: '2',
-    title: 'IT Division Launches Cloud Security Suite',
-    description:
-      'Our new enterprise-grade cybersecurity platform helps organizations protect critical infrastructure from emerging threats.',
-    image: '/images/news-2.jpg',
-    date: '2026-01-15',
-    slug: 'it-cloud-security-launch',
+  'it-services': {
+    pageTitle: 'IT Infrastructure & Technology Solutions',
+    intro: 'We provide secure, scalable technology solutions tailored for regulated and high-demand environments. Our IT services are designed to support operational continuity, data security, and system performance.',
+    items: [
+      'Enterprise infrastructure setup & management',
+      'Cloud solutions & migration support',
+      'Cybersecurity frameworks & monitoring',
+      'Systems integration & deployment',
+      'Network architecture & maintenance',
+      'Technical support & lifecycle management',
+    ],
+    closing: 'Technology that supports the mission—without disruption.',
   },
-  {
-    id: '3',
-    title: 'Government Contract Awarded for Smart City Initiative',
-    description:
-      'ARMEL selected to lead digital transformation for a major metropolitan smart city program worth $120M.',
-    image: '/images/news-3.jpg',
-    date: '2025-12-20',
-    slug: 'smart-city-contract-awarded',
+  government: {
+    pageTitle: 'Public Sector & Regulated Services',
+    intro: 'Armel Group supports federal, state, and local entities through compliant, mission-focused service delivery. Our team operates with strict adherence to regulatory standards and performance accountability.',
+    items: [
+      'Contracted logistics & procurement support',
+      'Facilities and infrastructure services',
+      'Workforce and operational support',
+      'Emergency and contingency response',
+      'Compliance-driven project execution',
+    ],
+    closing: 'Dependable execution for high-accountability environments.',
   },
-];
+  'life-support': {
+    pageTitle: 'Operational & Lifestyle Support Services',
+    intro: 'We provide comprehensive relocation, workforce, and lifestyle support services that enable organizations and personnel to operate efficiently in domestic and international environments.',
+    items: [
+      'Corporate relocation coordination',
+      'Workforce housing support',
+      'Wellness and support programs',
+      'On-site operational assistance',
+      'Travel and logistics coordination',
+    ],
+    closing: 'Support systems that allow teams to focus on performance.',
+  },
+  construction: {
+    pageTitle: 'Construction & Real Estate Development',
+    intro: 'Armel Group delivers commercial and residential development projects with disciplined planning, quality control, and financial oversight. We manage projects from concept to completion.',
+    items: [
+      'Commercial construction management',
+      'Residential development projects',
+      'Site planning & feasibility analysis',
+      'Renovation and infrastructure upgrades',
+      'Vendor & subcontractor coordination',
+    ],
+    closing: 'Built to last. Delivered on schedule.',
+  },
+};
 
 /** Social media links */
 export const SOCIAL_LINKS = [
-  { label: 'LinkedIn', href: 'https://linkedin.com/company/armelgroup', icon: 'linkedin' },
-  { label: 'Twitter', href: 'https://twitter.com/armelgroup', icon: 'twitter' },
-  { label: 'Facebook', href: 'https://facebook.com/armelgroup', icon: 'facebook' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/company/armel-group/', icon: 'linkedin' },
+  { label: 'YouTube', href: 'https://www.youtube.com/@armelgroup', icon: 'youtube' },
+  { label: 'Instagram', href: 'https://www.instagram.com/armel_group_inc', icon: 'instagram' },
 ] as const;
 
 /** Request type labels */

@@ -2,7 +2,7 @@ import SectionHeading from '@/components/ui/SectionHeading';
 
 export default function About() {
   return (
-    <section id="about" className="bg-white py-20 lg:py-28">
+    <section id="about" className="bg-neutral-200 py-20 lg:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           title="About ARMEL Group"
@@ -11,7 +11,7 @@ export default function About() {
 
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
           {/* Left column */}
-          <div className="space-y-6 text-neutral-600">
+          <div className="space-y-6 text-neutral-700">
             <p className="text-lg leading-relaxed">
               Founded with a vision to bridge industries across continents, ARMEL Group has grown
               into a trusted partner for businesses, governments, and communities worldwide. We
@@ -27,16 +27,15 @@ export default function About() {
           </div>
 
           {/* Right column — key figures */}
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid grid-cols-3 gap-6">
             {[
-              { value: '15+', label: 'Years of Experience' },
-              { value: '30+', label: 'Countries Served' },
-              { value: '500+', label: 'Projects Delivered' },
+              { value: '8+', label: 'Countries Served' },
+              { value: '70+', label: 'Projects Delivered' },
               { value: '98%', label: 'Client Satisfaction' },
             ].map((stat) => (
               <div
                 key={stat.label}
-                className="flex flex-col items-center justify-center rounded-2xl bg-neutral-50 p-6 text-center shadow-soft"
+                className="flex flex-col items-center justify-center rounded-2xl bg-white p-6 text-center shadow-soft"
               >
                 <span className="text-3xl font-extrabold text-primary-500 sm:text-4xl">
                   {stat.value}
