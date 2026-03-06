@@ -1,6 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { writeFile, mkdir } from 'fs/promises';
-import path from 'path';
 import { isAuthenticated } from '@/services/authService';
 
 export const dynamic = 'force-dynamic';
@@ -34,18 +32,26 @@ export async function POST(request: NextRequest) {
     }
 
     const ext = file.name.split('.').pop()?.toLowerCase() || 'jpg';
-    const uniqueName = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+    const uniqueName = `news/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
 
+    // Vercel Blob (production) or local filesystem (dev)
+    if (process.env.BLOB_READ_WRITE_TOKEN) {
+      const { put } = await import('@vercel/blob');
+      const blob = await put(uniqueName, file, {
+        access: 'public',
+        addRandomSuffix: false,
+      });
+      return NextResponse.json({ url: blob.url }, { status: 201 });
+    }
+
+    // Local filesystem fallback
+    const { writeFile, mkdir } = await import('fs/promises');
+    const path = await import('path');
     const uploadsDir = path.join(process.cwd(), 'public', 'uploads', 'news');
     await mkdir(uploadsDir, { recursive: true });
-
     const bytes = new Uint8Array(await file.arrayBuffer());
-    const filePath = path.join(uploadsDir, uniqueName);
-    await writeFile(filePath, bytes);
-
-    const url = `/uploads/news/${uniqueName}`;
-
-    return NextResponse.json({ url }, { status: 201 });
+    await writeFile(path.join(uploadsDir, uniqueName.replace('news/', '')), bytes);
+    return NextResponse.json({ url: `/uploads/news/${uniqueName.replace('news/', '')}` }, { status: 201 });
   } catch (error) {
     console.error('[API] Upload error:', error);
     return NextResponse.json({ message: 'Upload failed' }, { status: 500 });
