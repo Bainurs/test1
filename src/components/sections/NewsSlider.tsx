@@ -27,13 +27,16 @@ interface NewsSliderProps {
 
 export default function NewsSlider({ articles }: NewsSliderProps) {
   return (
-    <div className="news-slider">
+    <div className="news-slider relative px-0 lg:px-14">
       <Swiper
         modules={[Navigation, Pagination, Autoplay]}
         spaceBetween={24}
         slidesPerView={1}
-        navigation
-        pagination={{ clickable: true }}
+        navigation={{
+          prevEl: '.news-slider .slider-prev',
+          nextEl: '.news-slider .slider-next',
+        }}
+        pagination={{ clickable: true, el: '.news-slider .slider-dots' }}
         autoplay={{
           delay: 5000,
           disableOnInteraction: true,
@@ -43,7 +46,6 @@ export default function NewsSlider({ articles }: NewsSliderProps) {
           640: { slidesPerView: 2 },
           1024: { slidesPerView: 3 },
         }}
-        className="pb-14"
       >
         {articles.map((article) => (
           <SwiperSlide key={article.id}>
@@ -84,6 +86,17 @@ export default function NewsSlider({ articles }: NewsSliderProps) {
           </SwiperSlide>
         ))}
       </Swiper>
+
+      {/* External nav arrows — desktop only */}
+      <button className="slider-prev absolute left-0 top-1/2 z-10 hidden -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-soft transition-all hover:bg-primary-500 hover:text-white lg:flex" aria-label="Previous slide">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
+      </button>
+      <button className="slider-next absolute right-0 top-1/2 z-10 hidden -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-soft transition-all hover:bg-primary-500 hover:text-white lg:flex" aria-label="Next slide">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
+      </button>
+
+      {/* Pagination dots */}
+      <div className="slider-dots mt-8 flex justify-center gap-2" />
     </div>
   );
 }

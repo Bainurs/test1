@@ -49,45 +49,40 @@
 }
 
 /* ── News Swiper slider ────────────────────────── */
+
+/* Hide default Swiper navigation */
 .news-slider .swiper-button-prev,
 .news-slider .swiper-button-next {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: white;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-  transition: all 0.2s;
+  display: none !important;
 }
 
-.news-slider .swiper-button-prev:hover,
-.news-slider .swiper-button-next:hover {
-  background: #1e3a8a;
-}
-
-.news-slider .swiper-button-prev::after,
-.news-slider .swiper-button-next::after {
-  font-size: 16px;
-  font-weight: 700;
+/* Custom external arrows */
+.news-slider .slider-prev,
+.news-slider .slider-next {
+  width: 36px;
+  height: 36px;
   color: #1e3a8a;
 }
 
-.news-slider .swiper-button-prev:hover::after,
-.news-slider .swiper-button-next:hover::after {
-  color: white;
+.news-slider .slider-prev.swiper-button-disabled,
+.news-slider .slider-next.swiper-button-disabled {
+  opacity: 0.3;
+  pointer-events: none;
 }
 
-.news-slider .swiper-pagination-bullet {
+/* Custom pagination dots */
+.news-slider .slider-dots .swiper-pagination-bullet {
   width: 10px;
   height: 10px;
-  background: #dee2e6;
+  border-radius: 50%;
+  background: #ced4da;
   opacity: 1;
-  transition: all 0.2s;
+  transition: background 0.2s;
+  cursor: pointer;
 }
 
-.news-slider .swiper-pagination-bullet-active {
+.news-slider .slider-dots .swiper-pagination-bullet-active {
   background: #1e3a8a;
-  width: 28px;
-  border-radius: 5px;
 }
 
 /* ── Scrollbar styling ─────────────────────────── */
