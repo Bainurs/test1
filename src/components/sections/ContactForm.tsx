@@ -2,6 +2,7 @@
 
 import { useState, FormEvent } from 'react';
 import Input from '@/components/ui/Input';
+import PhoneInput from '@/components/ui/PhoneInput';
 import Select from '@/components/ui/Select';
 import Button from '@/components/ui/Button';
 import SectionHeading from '@/components/ui/SectionHeading';
@@ -144,15 +145,16 @@ export default function ContactForm() {
                 label="Full Name"
                 placeholder="John Smith"
                 value={form.name}
-                onChange={(e) => handleChange('name', e.target.value)}
+                onChange={(e) => {
+                  const filtered = e.target.value.replace(/[^a-zA-ZÀ-ÿ\u0400-\u04FF\s'\-]/g, '');
+                  handleChange('name', filtered);
+                }}
                 error={errors.name}
               />
-              <Input
+              <PhoneInput
                 label="Phone"
-                type="tel"
-                placeholder="+1 (555) 000-0000"
                 value={form.phone}
-                onChange={(e) => handleChange('phone', e.target.value)}
+                onChange={(val) => handleChange('phone', val)}
                 error={errors.phone}
               />
             </div>

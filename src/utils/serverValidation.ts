@@ -3,8 +3,9 @@
  * Mirrors client-side validation + additional sanitization.
  */
 
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const EMAIL_REGEX = /^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/;
 const PHONE_REGEX = /^[+]?[\d\s\-()]{7,20}$/;
+const NAME_REGEX = /^[a-zA-ZÀ-ÿ\u0400-\u04FF\s'\-]+$/;
 const VALID_REQUEST_TYPES = ['quote', 'inquiry', 'career'];
 
 export interface ValidationError {
@@ -32,12 +33,14 @@ export function validateContactData(body: Record<string, unknown>): {
 
   if (!name || name.length < 2) {
     errors.push({ field: 'name', message: 'Name is required and must be at least 2 characters' });
-  }
-  if (name.length > 200) {
+  } else if (!NAME_REGEX.test(name)) {
+    errors.push({ field: 'name', message: 'Name can only contain letters, spaces, hyphens and apostrophes' });
+  } else if (name.length > 200) {
     errors.push({ field: 'name', message: 'Name is too long' });
   }
 
-  if (!phone || !PHONE_REGEX.test(phone)) {
+  const phoneDigits = phone.replace(/\D/g, '');
+  if (!phone || phoneDigits.length < 7 || !PHONE_REGEX.test(phone)) {
     errors.push({ field: 'phone', message: 'A valid phone number is required' });
   }
 
