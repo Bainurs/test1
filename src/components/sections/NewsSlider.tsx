@@ -32,6 +32,8 @@ export default function NewsSlider({ articles }: NewsSliderProps) {
         modules={[Navigation, Pagination, Autoplay]}
         spaceBetween={24}
         slidesPerView={1}
+        grabCursor
+        touchEventsTarget="container"
         navigation={{
           prevEl: '.news-slider .slider-prev',
           nextEl: '.news-slider .slider-next',

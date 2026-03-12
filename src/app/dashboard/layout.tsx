@@ -18,7 +18,6 @@ export default function DashboardLayout({
   useEffect(() => {
     const checkAuth = async () => {
       if (isLoginPage) {
-        // On login page, check if already authenticated
         try {
           const res = await fetch('/api/auth/check');
           const data = await res.json();
@@ -26,14 +25,11 @@ export default function DashboardLayout({
             router.replace('/dashboard');
             return;
           }
-        } catch {
-          /* not authenticated, stay on login */
-        }
+        } catch { /* not authenticated, stay on login */ }
         setIsReady(true);
         return;
       }
 
-      // Protected routes — check auth
       try {
         const res = await fetch('/api/auth/check');
         const data = await res.json();
@@ -52,7 +48,6 @@ export default function DashboardLayout({
     checkAuth();
   }, [router, isLoginPage, pathname]);
 
-  /* Show loading spinner while checking auth */
   if (!isReady) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-neutral-100">
@@ -61,17 +56,15 @@ export default function DashboardLayout({
     );
   }
 
-  /* Login page has its own layout */
   if (isLoginPage) {
     return <>{children}</>;
   }
 
-  /* Authenticated dashboard layout */
   return (
     <div className="flex min-h-screen bg-neutral-100">
       <Sidebar />
-      <div className="flex-1 overflow-y-auto">
-        <div className="px-6 py-8 lg:px-10">{children}</div>
+      <div className="flex-1 overflow-y-auto pt-14 lg:pt-0">
+        <div className="px-4 py-6 sm:px-6 sm:py-8 lg:px-10">{children}</div>
       </div>
     </div>
   );
